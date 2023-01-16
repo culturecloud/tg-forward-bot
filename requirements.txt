@@ -2,7 +2,7 @@ Flask==2.2.2
 gunicorn==20.1.0
 aiohttp==3.8.1
 TgCrypto
-pyrogram==1.4.16
+pyrogram==1.0.23
 Dnspython
 pyromod
 umongo==2.3.0
