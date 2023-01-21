@@ -1,8 +1,7 @@
-from config import Config
+from app.config import Config
 from pyrogram import Client, emoji, filters
-from database import get_search_results
-from database import Data
-from config import Config
+from pyrogram.enums import ParseMode
+from app.database import get_search_results, Data
 import asyncio
 from pyrogram.errors import FloodWait
 import random
@@ -11,7 +10,7 @@ import pytz
 from datetime import datetime
 
 
-IST = pytz.timezone('Asia/Kolkata')
+IST = pytz.timezone(Config.TIMEZONE)
 MessageCount = 0
 BOT_STATUS = "0"
 status = set(int(x) for x in (BOT_STATUS).split())
@@ -29,7 +28,7 @@ async def count(bot, m):
 async def total(bot, message):
     msg = await message.reply("Counting total messages in DB...", quote=True)
     try:
-        total = await Data.count_documents()
+        total = Data.count_documents()
         await msg.edit(f'Total Messages: {total}')
     except Exception as e:
         await msg.edit(f'Error: {e}')
@@ -39,7 +38,7 @@ async def total(bot, message):
 async def clrdb(bot, message):
     msg = await message.reply("Clearing files from DB...", quote=True)
     try:
-        await Data.collection.drop()
+        Data.collection.drop()
         await msg.edit(f'Cleared DB')
     except Exception as e:
         await msg.edit(f'Error: {e}')
@@ -82,7 +81,7 @@ async def forward(bot, message):
                         await bot.copy_message(
                             chat_id=chat_id,
                             from_chat_id=channel,
-                            parse_mode="md",
+                            parse_mode=ParseMode.MARKDOWN,
                             caption=caption,
                             message_id=message_id
                             )
@@ -107,7 +106,7 @@ async def forward(bot, message):
                         await bot.copy_message(
                             chat_id=chat_id,
                             from_chat_id=channel,
-                            parse_mode="md",
+                            parse_mode=ParseMode.MARKDOWN,
                             caption=caption,
                             message_id=message_id
                             )
@@ -211,7 +210,7 @@ async def forward(bot, message):
                                         await bot.USER.copy_message(
                                             chat_id=chat_id,
                                             from_chat_id=channel,
-                                            parse_mode="md",
+                                            parse_mode=ParseMode.MARKDOWN,
                                             caption=caption,
                                             message_id=message_id
                                             )

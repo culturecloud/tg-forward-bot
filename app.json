@@ -41,7 +41,7 @@
     },
     "COLLECTION_NAME": {
       "description": "Database Collection Name",
-      "value": "Forward_data",
+      "value": "CCFWDBOT",
       "required": false
     },
     "OWNER_ID": {

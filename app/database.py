@@ -1,14 +1,14 @@
+from umongo import Document, fields
+from umongo.frameworks import PyMongoInstance
+from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
-from umongo import Instance, Document, fields
-from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-from config import Config
+
+from app.config import Config
 DATABASE_URI, DATABASE_NAME, COLLECTION_NAME = Config.DATABASE_URI, Config.DATABASE_NAME, Config.COLLECTION_NAME
 
-client = AsyncIOMotorClient(DATABASE_URI)
-db = client[DATABASE_NAME]
-instance = Instance(db)
-
+client = MongoClient(DATABASE_URI)
+instance = PyMongoInstance(client.DATABASE_NAME)
 
 @instance.register
 class Data(Document):
@@ -22,6 +22,8 @@ class Data(Document):
 
     class Meta:
         collection_name = COLLECTION_NAME
+
+Data.ensure_indexes()
 
 async def save_data(id, channel, message_id, methord, caption, file_type):
     try:

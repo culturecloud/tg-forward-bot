@@ -1,18 +1,19 @@
-from config import Config
-from config import LOGGER
 from pyrogram import Client, __version__
-import asyncio
+from app.config import Config, logger
+
 BOT_USERNAME=Config.BOT_USERNAME
 
 class User(Client):
     def __init__(self):
         super().__init__(
-            Config.SESSION,
+            "pyrogram_user",
+            session_string=Config.SESSION,
+            in_memory=True,
             api_hash=Config.API_HASH,
             api_id=Config.API_ID,
-            workers=10
+            workers=Config.WORKERS
         )
-        self.LOGGER = LOGGER
+        self.LOGGER = logger
 
     async def start(self):
         await super().start()
@@ -23,4 +24,4 @@ class User(Client):
 
     async def stop(self, *args):
         await super().stop()
-        self.LOGGER(__name__).info("Bot stopped. Bye.")
+        self.LOGGER.info("User stopped. Bye.")

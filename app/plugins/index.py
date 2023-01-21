@@ -1,24 +1,20 @@
+import re
 import pytz
 from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import InviteHashExpired, UserAlreadyParticipant
-from config import Config
-import re
-from bot import Bot
+from app.config import Config
 from asyncio.exceptions import TimeoutError
-from database import save_data
-import logging
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-                    level=logging.ERROR)
+from app.database import save_data
 
 limit_no=""               
 skip_no=""
 caption=""
 channel_type=""
 channel_id_=""
-IST = pytz.timezone('Asia/Kolkata')
+IST = pytz.timezone(Config.TIMEZONE)
 OWNER=int(Config.OWNER_ID)
 
 
@@ -170,7 +166,7 @@ async def cb_handler(bot: Client, query: CallbackQuery):
             if channel_type == "public":
                 methord="bot"
                 channel=FROM
-                msg=await bot.get_messages(FROM, MSG.message_id)
+                print("Mathamota!! ei j eikhan theke ashtese error ta")
             elif channel_type == "private":
                 methord="user"
                 channel=str(FROM)
